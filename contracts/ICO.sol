@@ -10,8 +10,21 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @title Initial Coin Offerring(ICO) contract
  */
 contract ICO is ERC20, Ownable {
+    uint256 private _startTimeEpoch;
+
     constructor() ERC20("InitialCO", "ICO") {
          _mint(msg.sender, 420000 * 10 ** decimals());
+    }
+
+    /**
+    * @notice Function to prevent a purchase if it is out of the sale period.
+    */
+    modifier isSalePeriod() {
+        require(_startTimeEpoch != 0, "ICO: the sale is not started yet.");
+        if (_startTimeEpoch != 0) {
+            require(block.timestamp < _startTimeEpoch + 2 weeks, "ICO: The sale is over.");
+        }
+        _;
     }
 
     /**

@@ -4,13 +4,18 @@
 /* eslint-disable no-unused-vars */
 const { expect } = require('chai');
 
-describe('Cal', function () {
-  beforeEach(async function () {
-    [owner] = await ethers.getSigners();
+describe('Cal (CAL) contract', function () {
+  const amount = ethers.utils.parseEther('1');
 
-    // Cal Deployment
-    Cal = await ethers.getContractFactory('Cal');
-    Cal = await Cal.connect(dev).deploy(owner.address);
-    await Cal.deployed();
+  before(async () => {
+    const contract = await ethers.getContractFactory('CAL');
+    token = await contract.deploy();
+    accounts = await ethers.getSigners();
+    await token.deployed();
+  });
+
+  it('Assigns initial balance', async function () {
+    const totalSupply = await token.totalSupply();
+    expect(await token.balanceOf(accounts[0].address)).to.equal(totalSupply);
   });
 });

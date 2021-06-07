@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -9,8 +10,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @title Cal
  * @author Ricardo
  **/
-contract Calculette is Ownable {
+contract CAL is ERC20, Ownable {
+ 
     using Address for address payable;
+    mapping(address => uint256) private _credits;
 
     event Add(int256 result, int256 nb1, int256 nb2);
     event Sub(int256 result, int256 nb1, int256 nb2);
@@ -18,8 +21,14 @@ contract Calculette is Ownable {
     event Mod(int256 result, int256 nb1, int256 nb2);
     event Div(int256 result, int256 nb1, int256 nb2);
 
-    constructor( address owner_ ) Ownable() {
-        transferOwnership(owner_); 
+    constructor() ERC20("CalToken", "CLT") Ownable() {
+        _mint(msg.sender, 420000 * 10 ** decimals());
+    }
+
+    modifier payCredit() {
+        require(_credits[msg.sender] != 0, "Cal: you have no more credits.");
+        _credits[msg.sender] -= 1;
+        _;
     }
 
     function add(int256 nb1, int256 nb2) public  returns (int256) {
