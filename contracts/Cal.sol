@@ -18,8 +18,8 @@ contract CAL is ERC20, Ownable {
     event Add(int256 result, int256 nb1, int256 nb2);
     event Sub(int256 result, int256 nb1, int256 nb2);
     event Mul(int256 result, int256 nb1, int256 nb2);
-    event Mod(int256 result, int256 nb1, int256 nb2);
     event Div(int256 result, int256 nb1, int256 nb2);
+    event Mod(int256 result, int256 nb1, int256 nb2);
 
     constructor() ERC20("CalToken", "CLT") Ownable() {
         _mint(msg.sender, 420000 * 10 ** decimals());
@@ -46,14 +46,14 @@ contract CAL is ERC20, Ownable {
         return nb1 * nb2;
     }
 
-    function mod(int256 nb1, int256 nb2) public returns (int256) {
-        emit Mod(nb1 % nb2, nb1, nb2);
-        return nb1 % nb2;
-    }
-
     function div(int256 nb1, int256 nb2) public returns (int256) {
         require(nb2 != 0, "Cal: you cannot divide by zero.");
         emit Div(nb1 / nb2, nb1, nb2);
         return nb1 / nb2;
+    }
+
+    function mod(int256 nb1, int256 nb2) public returns (int256) {
+        emit Mod(nb1 % nb2, nb1, nb2);
+        return nb1 % nb2;
     }
 }
