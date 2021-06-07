@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title Cal
+ * @title Calulator
  * @author Ricardo
  **/
 contract CAL is ERC20, Ownable {
