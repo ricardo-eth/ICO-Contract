@@ -1,3 +1,3 @@
 # Initial Coin Offering (ICO) contract
 
-# Calulator contract (in progress)
+# Calculator contract (in progress)
